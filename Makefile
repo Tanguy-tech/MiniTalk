@@ -6,7 +6,7 @@
 #    By: Tanguy <Tanguy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 15:49:39 by Tanguy            #+#    #+#              #
-#    Updated: 2021/06/24 16:14:10 by Tanguy           ###   ########.fr        #
+#    Updated: 2021/06/24 16:23:08 by Tanguy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,14 +32,18 @@ RM = rm -rf
 
 SRCS = client_part.c server_part.c
 
+UTILS = 
+
 INCS = minitalk.h
 
 OBJS_SRCS = $(addprefix ./srcs/, $(SRCS:.c=.o))
 
+OBJS_UTILS = $(addprefix ./utils/, $(UTILS:.c=.o))
+
 OBJS_INCS = $(addprefix ./includes/, $(INCS))
 
-$(NAME):	$(OBJS_SRCS)
-				@$(CC) $(CFLAGS) $(OBJS_SRCS) -I $(OBJS_INCS) -o minitalk
+$(NAME):	$(OBJS_SRCS) $(OBJS_UTILS)
+				@$(CC) $(CFLAGS) $(OBJS_SRCS) $(OBJS_UTILS) -I $(OBJS_INCS) -o minitalk
 				@printf "$(CYAN)-> Executable file minitalk created with success!\n$(BLUE)"
 
 all:		$(NAME)
@@ -57,6 +61,7 @@ clean:
 fclean:		clean
 			@$(RM) $(NAME)
 			@$(RM) $(OBJS_SRCS)
+			@$(RM) $(OBJS_UTILS)
 			@printf "$(ERASE)$(RED)-> All files .o cleaned$(END)\n"
 			@printf "$(ERASE)$(RED)-> All minilibx files cleaned$(END)\n"
 
