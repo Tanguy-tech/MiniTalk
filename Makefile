@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Tanguy <Tanguy@student.42.fr>              +#+  +:+       +#+         #
+#    By: tanguy <tanguy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 15:49:39 by Tanguy            #+#    #+#              #
-#    Updated: 2021/06/24 16:23:08 by Tanguy           ###   ########.fr        #
+#    Updated: 2021/08/10 08:24:46 by tanguy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,46 +24,51 @@ UNDER       =   \033[4m
 SUR         =   \033[7m
 END         =   \033[0m
 
-CC = gcc
+CLIENT = client
 
-FLAGS = -Wall -Werror -Wextra
+SERVER = server
+
+HEADER = minitalk.h
+
+LIBFT = libft/libft.a
+
+CC = gcc
 
 RM = rm -rf
 
-SRCS = client_part.c server_part.c
+FLAGS = -Wall -Werror -Wextra
 
-UTILS = 
+all	:	comp_lib $(SERVER) $(CLIENT)		
+			
+comp_lib :
+			@make -C libft
 
-INCS = minitalk.h
+$(SERVER) :	part_server.o
+			@$(CC) $(FLAGS) part_server.o -I $(HEADER) $(LIBFT) -o $(SERVER)
+			@printf "$(GREEN)Server built with success!$(END)\n"
 
-OBJS_SRCS = $(addprefix ./srcs/, $(SRCS:.c=.o))
+$(CLIENT) : part_client.o
+			@$(CC) $(FLAGS) part_client.o -I $(HEADER) $(LIBFT) -o $(CLIENT)
+			@printf "$(GREEN)Client built with success!$(END)\n"
 
-OBJS_UTILS = $(addprefix ./utils/, $(UTILS:.c=.o))
-
-OBJS_INCS = $(addprefix ./includes/, $(INCS))
-
-$(NAME):	$(OBJS_SRCS) $(OBJS_UTILS)
-				@$(CC) $(CFLAGS) $(OBJS_SRCS) $(OBJS_UTILS) -I $(OBJS_INCS) -o minitalk
-				@printf "$(CYAN)-> Executable file minitalk created with success!\n$(BLUE)"
-
-all:		$(NAME)
-
-%.o: %.c $(OBJS_INCS)
-		 @$(CC) $(FLAGS) -c $< -o $(<:.c=.o) -I ./includes
-		 @printf "$(ERASE)$(YELLOW)$<....$(END)"
+%.o: %.c $(HEADER) $(LIBFT)
+		@$(CC) $(FLAGS) -c $< -o $@ -I $(HEADER)
 
 norme:		
-			norminette $(addprefix ./srcs/, $(SRCS))
+			@norminette libft/*.c
+			@norminette part_client.c
+			@norminette part_server.c
 
-clean:
-			@$(RM) $(OBJS)
-
-fclean:		clean
-			@$(RM) $(NAME)
-			@$(RM) $(OBJS_SRCS)
-			@$(RM) $(OBJS_UTILS)
+clean :
+			@make clean -C libft 
+			@$(RM) libft/libft.a
+			@$(RM) part_client.o part_server.o
+			@$(RM) server client
 			@printf "$(ERASE)$(RED)-> All files .o cleaned$(END)\n"
-			@printf "$(ERASE)$(RED)-> All minilibx files cleaned$(END)\n"
+
+fclean : clean
+			@$(RM) $(CLIENT) $(SERVER)
+			@printf "$(ERASE)$(RED)-> All files cleaned$(END)\n"
 
 re:			fclean all
 
