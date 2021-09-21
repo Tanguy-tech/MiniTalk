@@ -50,5 +50,6 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	send_bbb(pid_server, av[2], ft_strlen(av[2]));
+	write(STDERR_FILENO, "Data message sent properly!\n", 28);
 	return (0);
 }
