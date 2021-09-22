@@ -40,7 +40,7 @@ int	main(int ac, char **av)
 
 	if (ac < 3)
 	{
-		write(STDERR_FILENO, "ERROR : ./client [pid server] [message]\n", 49);
+		write(STDERR_FILENO, "ERROR : ./client [pid server] [message]\n", 40);
 		return (1);
 	}
 	pid_server = ft_atoi(av[1]);
