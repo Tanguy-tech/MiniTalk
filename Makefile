@@ -6,7 +6,7 @@
 #    By: tanguy <tanguy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 15:49:39 by Tanguy            #+#    #+#              #
-#    Updated: 2021/08/10 08:24:46 by tanguy           ###   ########.fr        #
+#    Updated: 2021/09/23 11:02:12 by tanguy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,8 +56,10 @@ $(CLIENT) : part_client.o
 
 norme:		
 			@norminette libft/*.c
+			@norminette libft/libft.h
 			@norminette part_client.c
 			@norminette part_server.c
+			@norminette minitalk.h
 
 clean :
 			@make clean -C libft 
